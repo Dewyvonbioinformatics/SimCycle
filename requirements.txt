@@ -1,0 +1,7 @@
+# LAMPrey runtime dependencies.
+# Engine core needs only numpy (+ scipy for batch time-grid interpolation).
+# matplotlib and networkx are required by the visualization tools in tools/.
+numpy>=1.21
+scipy>=1.7
+matplotlib>=3.4
+networkx>=2.6

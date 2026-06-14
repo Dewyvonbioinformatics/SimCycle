@@ -18,6 +18,8 @@ env/
 *.pkl
 *.png
 !examples/data/*
+# Committed example gallery (intentional assets, not scratch output)
+!examples/outputs/*.png
 examples/demo_result.pkl
 
 # OS

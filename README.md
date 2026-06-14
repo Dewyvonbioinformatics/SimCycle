@@ -20,6 +20,7 @@ target DNA present**.
 - [Primer input (arbitrary formats)](#primer-input-arbitrary-formats)
 - [Simulation output schema](#simulation-output-schema)
 - [Tools](#tools)
+- [Example outputs](#example-outputs)
 - [Project layout](#project-layout)
 - [Testing](#testing)
 - [Biological glossary](#biological-glossary)
@@ -151,12 +152,52 @@ both a CLI and an importable function.
 | `tools/plot_amplification.py` | cumulative-nt amplification curve(s); overlays multiple results/replicates |
 | `tools/plot_lineage.py` | product genealogy — each product at (emission time, length), edges parent→child, colored by mechanism |
 | `tools/plot_autocat_network.py` | autocatalytic segment-transition network (nodes = primer families, edges = transition frequency; self-loops = hairpin turnbacks) |
+| `tools/plot_product_summary.py` | product counts by mechanism + product-length distribution |
+| `tools/plot_segmentation.py` | per-read segmentation diagram — representative products as labeled primer-family blocks |
 
 **Additional capabilities planned for standardization** (currently in the research
 codebase, not yet packaged here): batch/parallel replicate runner with live progress,
 inflection-time and amplification-rate classification, empirical-vs-simulated transition
-matrix comparison, product-length distributions, and edit-distance scoring against
-nanopore reads.
+matrix comparison, and edit-distance scoring against nanopore reads.
+
+## Example outputs
+
+The figures below are generated from the bundled **synthetic** demo set
+([`examples/data/demo_primers.csv`](examples/data/demo_primers.csv)) — no real
+primer data is used. Regenerate the whole gallery with:
+
+```bash
+python examples/run_simulation.py --t-end 60 --seed 42
+python tools/plot_amplification.py    examples/demo_result.pkl --out examples/outputs/amplification_curve.png
+python tools/plot_product_summary.py  examples/demo_result.pkl --out examples/outputs/product_summary.png
+python tools/plot_segmentation.py     examples/demo_result.pkl --out examples/outputs/product_segmentation.png
+python tools/plot_lineage.py          examples/demo_result.pkl --out examples/outputs/lineage_graph.png
+python tools/plot_autocat_network.py  examples/demo_result.pkl --out examples/outputs/segment_transition_network.png
+```
+
+**Amplification curve** — cumulative nucleotides synthesized over time.
+
+![amplification curve](examples/outputs/amplification_curve.png)
+
+**Product summary** — how many products each mechanism made, and their length distribution.
+
+![product summary](examples/outputs/product_summary.png)
+
+**Product segmentation** — representative products drawn as labeled primer-family blocks.
+
+![product segmentation](examples/outputs/product_segmentation.png)
+
+**Product lineage** — distinct products by emergence time and length, colored by mechanism.
+
+![product lineage](examples/outputs/lineage_graph.png)
+
+**Segment-transition network** — primer-family transitions aggregated across all reads
+(self-loops are hairpin turnbacks; longer cycles are multi-primer cascades).
+
+![segment transition network](examples/outputs/segment_transition_network.png)
+
+Representative **output sequences with copy counts**:
+[`examples/outputs/example_products.csv`](examples/outputs/example_products.csv).
 
 ## Project layout
 
